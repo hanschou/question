@@ -1,2 +1,1 @@
-# question
-Question Ranking
+Starter project for canvas type applications

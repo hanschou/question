@@ -1,0 +1,68 @@
+<style>
+	TABLE {
+		border: 1px solid;
+		border-collapse: collapse;
+		background-color: #FFF;
+	}
+	TH, TD {
+		border: 1px solid;
+		padding: 8px;
+	}
+	tbody tr:nth-child(odd) {
+ 		background-color: #2b3927;
+	}
+	CAPTION {
+		background-color: #DDD;
+	}
+	.votemenu {
+		background-color: #ccc;
+	}
+.arrowUpH{content:url('data:image/svg+xml,<svg width="40px" height="40px" xmlns="http://www.w3.org/2000/svg"><path fill="%230E0" stroke="%230B0" stroke-width="4" stroke-linejoin="round" stroke-linecap="butt" fill-rule="evenodd" d="m20 1l14 19l-8 0l0 18l-12 0l0 -18l-8 0z"></path></svg>');}
+.arrowUpL{content:url('data:image/svg+xml,<svg width="40px" height="40px" xmlns="http://www.w3.org/2000/svg"><path fill="%23AFA" stroke="%23EFE" stroke-width="4" stroke-linejoin="round" stroke-linecap="butt" fill-rule="evenodd" d="m20 1l14 19l-8 0l0 18l-12 0l0 -18l-8 0z"></path></svg>');}
+.arrowDnH{content:url('data:image/svg+xml,<svg width="40px" height="40px" xmlns="http://www.w3.org/2000/svg"><path fill="%23F00" stroke="%23B00" stroke-width="4" stroke-linejoin="round" stroke-linecap="butt" fill-rule="evenodd" d="m20 39l14 -19 l -8 0l0 -18l-12 0l0 18l-8 0z"></path></svg>');}
+.arrowDnL{content:url('data:image/svg+xml,<svg width="40px" height="40px" xmlns="http://www.w3.org/2000/svg"><path fill="%23FCC" stroke="%23FEE" stroke-width="4" stroke-linejoin="round" stroke-linecap="butt" fill-rule="evenodd" d="m20 39l14 -19 l -8 0l0 -18l-12 0l0 18l-8 0z"></path></svg>');}
+</style>
+<script>
+function showId(rowId) {
+	document.getElementById("showId").innerHTML = rowId;
+}
+function askQ() {
+	var style = document.getElementById("qbox").style;
+	if (style.display == "none") {
+		style.display = "inline";
+		document.getElementById("bask").innerHTML = "Submit";
+		document.getElementById("newQuest").focus();
+	} else {
+		style.display = "none";
+		document.getElementById("bask").innerHTML = "Ask";
+	}
+}
+</script>
+<!--include src="/html/canvasheader"></include-->
+
+<div style="width:700px;"></div>
+
+<p class="votemenu"> Help | Create | Login </p>
+<div id="qbox" style="display:inline;color:#888;">
+<input id="newQuest" title="Ask new question" name="question3" size="60" maxlength="160" value="" placeholder="Enter question...">
+<button>Ask</button>
+</div>
+
+<table summary="voting" style="width: 100%">
+<caption>Voting</caption>
+<thead><tr>
+  <th title="Question number">#</th>
+  <th>Question</th>
+  <th title="Sum of all votes for this question">$</th>
+  <th title="Vote this question down">Down</th>
+  <th title="Vote this question Up">Up</th>
+</tr></thead>
+<tbody>
+	<tr class="row" foreach="row in 1..12" style="display:block">
+  		<td>0</td>
+  		<td>?</td>
+  		<td>0</td>
+  		<td><button onclick="this.voteDown()"><img class="arrowDnL" title="Vote down"/></button></td>
+  		<td><button onclick="this.voteUp()"><img class="arrowUpL" title="Remove vote"/></button></td>
+	</tr>
+</tbody></table>

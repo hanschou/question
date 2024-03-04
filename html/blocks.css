@@ -1,0 +1,31 @@
+
+.container
+{
+   gap:5px;
+   display:grid;
+}
+
+.container.flex
+{
+   display:flex;
+   vertical-align: top;
+}
+
+.left
+{
+   margin-right:auto;
+   justify-content: left;
+}
+
+.center
+{
+   margin-left: auto;
+   margin-right: auto;
+   justify-content: center;
+}
+
+.right
+{
+   margin-left:auto;
+   justify-content: right;
+}
