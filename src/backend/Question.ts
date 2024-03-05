@@ -23,27 +23,41 @@
 import { FormsModule } from "../FormsModule";
 import { BindValue, DataType, ParameterType, SQLStatement, StoredProcedure } from "futureforms";
 
-export class Template
+export class Question
 {
-	public static async execSomeSQL(arg1:string) : Promise<string>
+	public static async execVotesSQL(cpass:string) : Promise<string>
 	{
 		let row:any[] = null;
 		let stmt:SQLStatement = new SQLStatement(FormsModule.DATABASE);
 
 		stmt.sql =
 		`
-			select column1
-			from table
-			where column0 = :arg1
+		SELECT qq.qid AS qid, qq.qn AS qn, votes, vup, vdn, COALESCE(vv.vote,0) AS myvo, qq.content AS content
+		FROM (
+			SELECT
+				q.qid,
+				q.qn,
+				COALESCE(SUM(v.vote),0) AS votes,
+				SUM(CASE COALESCE(v.vote, 0) WHEN  1 THEN 1 ELSE 0 END) AS vup,
+				SUM(CASE COALESCE(v.vote, 0) WHEN -1 THEN 1 ELSE 0 END) AS vdn,
+				q.content
+			FROM question q
+			LEFT OUTER JOIN vote v ON (v.qid=q.qid)
+			WHERE q.deleted=0 AND q.cid=(SELECT cid FROM conference WHERE cpass='10life')
+			GROUP BY q.qid, q.content
+			) AS qq
+		LEFT OUTER JOIN vote vv ON (vv.qid=qq.qid AND vv.aid=(SELECT aid FROM attendee WHERE apass='IAmGodNow'))
+		ORDER BY votes DESC, qq.qid ASC
 		`;
 
-		stmt.addBindValue(new BindValue("arg1",arg1,DataType.string));
+		stmt.addBindValue(new BindValue("cpass",cpass,DataType.string));
 
 		let success:boolean = await stmt.execute();
 		if (success) row = await stmt.fetch();
 
 		stmt.close();
-		if (row)	return(row[0]);
+		if (row)
+			return(row[0]);
 
 		return(null);
 	}

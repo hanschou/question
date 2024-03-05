@@ -49,7 +49,7 @@ export class QuestionForm extends BaseForm
    
     private refreshVoting()
     {
-      this.reQuery("Question2");
+      this.reQuery("Question");
       setTimeout(() =>
       {
          this.refreshVoting();
